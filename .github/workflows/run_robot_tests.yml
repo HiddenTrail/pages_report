@@ -48,10 +48,10 @@ jobs:
 
     - name: Install Robot Framework
       run: |
-        pip install virtualenv
-        python3 -m venv .
-        source ./bin/activate
-        pip install -r requirements.txt
+        pip3 install virtualenv
+        python3 -m venv robot_venv
+        source robot_venv/bin/activate
+        pip3 install -r requirements.txt
         rfbrowser init
 
     - name: Run Robot tests
