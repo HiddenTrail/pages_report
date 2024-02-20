@@ -1,0 +1,17 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:  
+  tests:
+    runs-on: "ubuntu-latest"
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: main
+
+    - name: Run Robot tests
+      id: test_run
+      run: |
+        echo "Hello World!"
