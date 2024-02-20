@@ -1,4 +1,4 @@
-name: Robot Framework Browser UI tests
+name: Workflow for Framework Browser UI tests
 
 on:
   # Use cron style scheduling for running the tests at wanted intervals
@@ -6,6 +6,11 @@ on:
   #   - cron: '0 4 * * *'
   # Use workflow_dispatch to run the tests manually
   workflow_dispatch:
+    inputs:
+      branch:
+        description: branch to run the tests on
+        required: true
+        default: main
 
 env:
   JAVA_DISTRIBUTION: zulu
@@ -16,11 +21,13 @@ env:
 
 jobs:  
   robot-tests:
-    runs-on: "ubuntu-latest"
+    name: Run Robot tests
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
-        ref: master
+        ref: ${{ inputs.branch }}
 
     - name: Set up JDK for Allure report
       uses: actions/setup-java@v4
@@ -28,12 +35,14 @@ jobs:
         distribution: ${{ env.JAVA_DISTRIBUTION }}
         java-version: ${{ env.JAVA_VERSION }}
 
-    - uses: actions/setup-python@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         architecture: 'x64'
   
-    - uses: actions/setup-node@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
 
