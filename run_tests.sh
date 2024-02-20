@@ -13,28 +13,45 @@ preserve_results=true
 headless=False
 robot_command=""
 log_level="INFO"
+ci=false
 
 cd ${SCRIPT_DIR}
 
 function run_robot() {
+    local robot_variables=""
+    if $ci ; then
+        robot_variables="--variablefile ${variable_file} \
+            --variable BROWSER:${browser} \
+            --skip skip \
+            --variable HEADLESS:True \
+            --loglevel=${log_level} \
+            --listener allure_robotframework:results/allure \
+            -d results \
+            -x outputxunit.xml \
+            -o TestRun.xml \
+            -l TestRun.html \
+            -r TestReport.html"
+    else
+        robot_variables="--variablefile ${variable_file} \
+            --variable BROWSER:${browser} \
+            --skip skip \
+            --variable HEADLESS:${headless} \
+            --loglevel=${log_level} \
+            --listener allure_robotframework:results/${DATE}/allure \
+            -d results/${DATE} \
+            -x outputxunit.xml \
+            -o TestRun.xml \
+            -l TestRun.html \
+            -r TestReport.html"
+    fi
     robot \
-        --variablefile ${variable_file} \
-        --variable BROWSER:${browser} \
-        --skip skip \
         --pythonpath ${SCRIPT_DIR} \
-        --variable HEADLESS:${headless} \
+        ${robot_variables} \
         ${tests_tag} \
-        --loglevel=${log_level} \
-        --listener allure_robotframework:results/${DATE}/allure \
-        -d results/${DATE} \
-        -x outputxunit.xml \
-        -o TestRun.xml \
-        -l TestRun.html \
-        -r TestReport.html \
         ${tests_path}
 }
 
-while getopts "d:b:t:pil:h" opt; do
+while getopts "d:b:t:pil:ch" opt; do
   case $opt in
     d)
         tests_path="$OPTARG"
@@ -54,6 +71,9 @@ while getopts "d:b:t:pil:h" opt; do
     l)
         log_level="$OPTARG"
         ;;
+    c)
+        ci=true
+        ;;
     \?)
         echo "Invalid Option -${OPTARG}" >&2
         exit 1
@@ -71,6 +91,7 @@ while getopts "d:b:t:pil:h" opt; do
         echo "  -p                 Preserve results folder. Default: true"
         echo "  -i                 Run tests in headless mode. Default: false"
         echo "  -l <log_level>     Log level for the tests. Default: INFO"
+        echo "  -c                 Run tests in CI mode. Default: false"
         echo "  -h                 Show this help message"
         exit 0
         ;;
