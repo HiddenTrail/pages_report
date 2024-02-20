@@ -57,6 +57,7 @@ jobs:
     - name: Run Robot tests
       id: test_run
       run: |
+        source robot_venv/bin/activate
         ./run_tests.sh -c
 
     - name: Load test report history for Allure report
