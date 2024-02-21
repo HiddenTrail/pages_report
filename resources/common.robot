@@ -5,6 +5,7 @@ Library          ${CURDIR}${/}..${/}libraries${/}py_utils.py
 Library          Browser    jsextension=${CURDIR}${/}..${/}libraries${/}robotJsKeywords.js
 
 Resource         login_page.robot
+Resource         inventory_page.robot
 
 
 *** Variables ***
