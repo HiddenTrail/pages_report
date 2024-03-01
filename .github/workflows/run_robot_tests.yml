@@ -79,6 +79,7 @@ jobs:
         keep_reports: ${{ env.ALLURE_HISTORY_COUNT }}
 
     - name: Copy browser results to allure history
+      if: ${{ always() && steps.test_run.conclusion != 'skipped' && !cancelled() }}
       run: |
         if [ -d "results/browser" ] ; then
           mkdir -p allure-history/${{ github.run_number }}/data/attachments/
