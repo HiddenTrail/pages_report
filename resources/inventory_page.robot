@@ -24,4 +24,4 @@ Verify Item Clicked To Shopping Cart
 
 Verify Shopping Cart Content
     [Arguments]    ${item_name}
-    Wait For Elements State    //div[@class="inventory_item_name" and contains(text(), '${item_name}')]    visible
+    Wait For Elements State    //div[@class="inventory_item_name" and contains(text(), '${item_name}abc')]    visible
