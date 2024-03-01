@@ -78,6 +78,13 @@ jobs:
         allure_history: allure-history
         keep_reports: ${{ env.ALLURE_HISTORY_COUNT }}
 
+    - name: Copy browser results to allure history
+      run: |
+        if [ -d "results/browser" ] ; then
+          mkdir -p allure-history/${{ github.run_number }}/data/attachments/
+          cp -r results/browser allure-history/${{ github.run_number }}/data/attachments/browser
+        fi
+
     - name: Upload test results as artifacts
       if: always()
       uses: actions/upload-artifact@v4
