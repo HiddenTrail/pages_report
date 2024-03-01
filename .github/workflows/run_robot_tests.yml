@@ -81,9 +81,12 @@ jobs:
     - name: Copy browser results to allure history
       if: ${{ always() && steps.test_run.conclusion != 'skipped' && !cancelled() }}
       run: |
+        echo "Github Run Number: ${{ github.run_number }}"
+        echo "Allure History:"
+        ls -la allure-history
         if [ -d "results/browser" ] ; then
-          mkdir -p allure-history/${{ github.run_number }}/data/attachments/
-          cp -r results/browser allure-history/${{ github.run_number }}/data/attachments/browser
+          mkdir -p allure-history/${{ github.run_number }}/data/attachments/browser/
+          sudo cp -r results/browser allure-history/${{ github.run_number }}/data/attachments/browser
         fi
 
     - name: Upload test results as artifacts
