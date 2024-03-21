@@ -1,0 +1,26 @@
+{
+    "files.exclude": {
+        "**/__pycache__": true
+    },
+    "robot.pythonpath": [
+        "${workspaceRoot}",
+        "${workspaceRoot}/libraries",
+    ],
+    "robot.libraries.libdoc.needsArgs": [
+        // Add libraries that require arguments to be passed to them
+        "",
+    ],
+    "robot.libraries.libdoc.preGenerate": [
+        // Add libraries that require pre-generation of documentation
+        "",
+    ],
+    "github.copilot.enable": {
+        "*": "true",
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "github.copilot.editor.enableCodeActions": true,
+    "github.copilot.chat.welcomeMessage": "first",
+}
